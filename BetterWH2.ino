@@ -1,17 +1,21 @@
 /*
   Updated code for receiving data from WH2 weather station
-  This code implements wh2_timeouts to make decoding more robust
+  This code implements timeouts to make decoding more robust
   Decodes received packets and writes a summary of each packet to the Arduino's
   serial port
   Created by Luc Small on 19 July 2013.
   Released into the public domain.
 */
 
-
+// Read data from 433MHz receiver on digital pin 2
 #define RF_IN 2
+// For better efficiency, the port is read directly
+// the following two lines should be changed appropriately
+// if the line above is changed.
 #define RF_IN_RAW PIND2
 #define RF_IN_PIN PIND
 
+// Port that is hooked to LED to indicate a packet has been received
 #define LED_PACKET A2
 
 #define COUNTER_RATE 3200-1 // 16,000,000Hz / 3200 = 5000 interrupts per second, ie. 200us between interrupts
@@ -107,7 +111,7 @@ ISR(TIMER1_COMPA_vect)
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Weather Sensor WH2 Test Harness");
+  Serial.println("BetterWH2");
   
   pinMode(LED_PACKET, OUTPUT);
   pinMode(RF_IN, INPUT);
